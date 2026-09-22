@@ -1,3 +1,149 @@
+#!/bin/bash
+set -e
+echo "Installing Sanity packages..."
+npm install @sanity/client @sanity/image-url
+
+echo "Writing .env..."
+cat > .env << 'ENV_EOF'
+SANITY_PROJECT_ID=dorj8wzz
+SANITY_DATASET=production
+ENV_EOF
+
+echo "Creating src/lib..."
+mkdir -p src/lib
+
+echo "Writing src/lib/sanityClient.js..."
+cat > src/lib/sanityClient.js << 'CLIENT_EOF'
+import {createClient} from '@sanity/client'
+import imageUrlBuilder from '@sanity/image-url'
+
+export const sanityClient = createClient({
+  projectId: import.meta.env.SANITY_PROJECT_ID,
+  dataset: import.meta.env.SANITY_DATASET || 'production',
+  apiVersion: '2024-01-01',
+  // Build reads published content only — no token needed.
+  // If you later want draft previews, add a read token here
+  // and gate it behind an env var, never commit it.
+  useCdn: true,
+})
+
+const builder = imageUrlBuilder(sanityClient)
+
+export function urlFor(source) {
+  return builder.image(source)
+}
+CLIENT_EOF
+
+echo "Writing src/lib/queries.js..."
+cat > src/lib/queries.js << 'QUERIES_EOF'
+import {groq} from '@sanity/client'
+
+/**
+ * Fetches the single homePage document plus the latest N posts for the
+ * blog teaser section (N comes from homePage.blogPostCount).
+ */
+export const HOME_PAGE_QUERY = groq`
+{
+  "page": *[_type == "homePage"][0]{
+    heroPreHeadline,
+    heroHeadline,
+    heroSubtext,
+    heroPrimaryCta,
+    heroSecondaryCta,
+    heroReassurance,
+
+    logoCloudHeading,
+    logos,
+
+    testimonialsTop,
+
+    problemEyebrow,
+    problemHeading,
+    problemBody,
+    painPoints,
+
+    solutionHeading,
+    solutionBody,
+    solutionCta,
+
+    processHeading,
+    processSteps,
+
+    pricingEyebrow,
+    pricingHeading,
+    pricingBody,
+    pricingPlans,
+
+    aboutEyebrow,
+    aboutHeading,
+    aboutPhoto,
+    aboutBullets,
+
+    workHeading,
+    workItems,
+
+    faqItems,
+
+    finalTestimonial,
+
+    ctaHeading,
+    ctaSubtext,
+    ctaButton,
+
+    socialProofRating,
+    socialProofText,
+
+    blogHeading,
+    blogPostCount,
+
+    seoTitle,
+    seoDescription
+  },
+  "posts": *[_type == "post"] | order(publishedAt desc)[0...$postCount]{
+    title,
+    slug,
+    excerpt,
+    mainImage,
+    publishedAt
+  }
+}
+`
+
+export const SITE_SETTINGS_QUERY = groq`
+*[_type == "siteSettings"][0]{
+  siteName,
+  navLinks,
+  navCta,
+  navAvatar,
+  footerText,
+  socialLinks,
+  defaultSeoTitle,
+  defaultSeoDescription,
+  defaultOgImage
+}
+`
+
+export const ALL_POST_SLUGS_QUERY = groq`
+*[_type == "post" && defined(slug.current)][].slug.current
+`
+
+export const POST_BY_SLUG_QUERY = groq`
+*[_type == "post" && slug.current == $slug][0]{
+  title,
+  slug,
+  excerpt,
+  mainImage,
+  publishedAt,
+  author,
+  tags,
+  body
+}
+`
+QUERIES_EOF
+
+echo "Writing src/pages/index.astro..."
+mkdir -p src/pages
+cat > src/pages/index.astro << 'ASTRO_EOF'
 ---
 import { sanityClient, urlFor } from '../lib/sanityClient';
 import { HOME_PAGE_QUERY, SITE_SETTINGS_QUERY } from '../lib/queries';
@@ -654,3 +800,7 @@ const fullStars = Math.round(rating);
   }, 2800);
 })();
 </script>
+ASTRO_EOF
+
+echo ""
+echo "All done. Run: npm run dev"

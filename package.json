@@ -12,6 +12,8 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@sanity/client": "^8.6.2",
+    "@sanity/image-url": "^2.1.1",
     "astro": "^7.3.2"
   },
   "allowScripts": {
