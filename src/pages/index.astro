@@ -147,7 +147,8 @@ const fullStars = Math.round(rating);
   #logos { padding: 64px 0 56px; border-top: 1px solid var(--line); }
   .logo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; align-items: center; margin-top: 12px; }
   .logo-slot { height: 32px; }
-  .logo-slot img { filter: invert(1) grayscale(1); opacity: 0.55; }
+  .logo-slot img { filter: brightness(0); opacity: 0.45; }
+  .logo-slot img.logo-native { filter: none; opacity: 1; }
 
   #testimonials-top { padding: 0 0 64px; }
   .testi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -376,11 +377,22 @@ const fullStars = Math.round(rating);
   <div class="wrap">
     <p class="eyebrow center" style="color:var(--ink-soft); font-weight:600;">{page?.logoCloudHeading}</p>
     <div class="logo-grid">
-      {(page?.logos?.length ? page.logos : [null, null, null, null, null]).map((logo) => (
-        <div class="logo-slot">
-          {logo && <img src={urlFor(logo).height(40).url()} alt="" style="max-height:40px;" />}
-        </div>
-      ))}
+      {(page?.logos?.length ? page.logos : [null, null, null, null, null]).map((logo) => {
+        // Pre-colored locally so the "Ad" mark cutout can stay white while the
+        // rest matches the shared gray filter below - CSS filters alone can't
+        // treat one region of an image differently from the rest.
+        const isAdConversion = logo?.asset?._ref === 'image-c28e463027cc9df6e467d6433c1d745031d831bb-290x70-svg';
+        return (
+          <div class="logo-slot">
+            {logo && isAdConversion && (
+              <img src="/images/adconversion-logo-gray.svg" alt="" class="logo-native" style="max-height:40px;" />
+            )}
+            {logo && !isAdConversion && (
+              <img src={urlFor(logo).height(40).url()} alt="" style="max-height:40px;" />
+            )}
+          </div>
+        );
+      })}
     </div>
   </div>
 </section>
