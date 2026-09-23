@@ -147,6 +147,7 @@ const fullStars = Math.round(rating);
   #logos { padding: 64px 0 56px; border-top: 1px solid var(--line); }
   .logo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; align-items: center; margin-top: 12px; }
   .logo-slot { height: 32px; background: var(--swatch); border-radius: 6px; }
+  .logo-slot img { filter: brightness(0); opacity: 0.35; }
 
   #testimonials-top { padding: 0 0 64px; }
   .testi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -377,7 +378,7 @@ const fullStars = Math.round(rating);
     <div class="logo-grid">
       {(page?.logos?.length ? page.logos : [null, null, null, null, null]).map((logo) => (
         <div class="logo-slot">
-          {logo && <img src={urlFor(logo).height(40).url()} alt="" style="max-height:40px; opacity:0.6;" />}
+          {logo && <img src={urlFor(logo).height(40).url()} alt="" style="max-height:40px;" />}
         </div>
       ))}
     </div>
