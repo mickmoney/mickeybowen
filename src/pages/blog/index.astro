@@ -1,0 +1,146 @@
+---
+import { sanityClient, urlFor } from '../../lib/sanityClient';
+import { BLOG_LIST_QUERY, SITE_SETTINGS_QUERY } from '../../lib/queries';
+
+const posts = await sanityClient.fetch(BLOG_LIST_QUERY);
+const settings = await sanityClient.fetch(SITE_SETTINGS_QUERY);
+
+const navLinks = settings?.navLinks?.length
+  ? settings.navLinks
+  : [
+      { label: 'Work', anchor: '/#work' },
+      { label: 'Process', anchor: '/#process' },
+      { label: 'About', anchor: '/#about' },
+      { label: 'Blog', anchor: '/blog' },
+    ];
+const navCta = settings?.navCta ?? {
+  label: 'Chat with Mickey',
+  url: 'https://calendly.com/mickeybowen/30min',
+  openInNewTab: true,
+};
+const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog | {settings?.siteName ?? 'Mickey Bowen'}</title>
+</head>
+<body>
+  <div class="nav-bar">
+    <nav>
+      <a href="/" class="logo">{settings?.siteName ?? 'Mickey Bowen'}</a>
+      <div class="links">
+        {navLinks.map((link) => (
+          <a href={link.anchor}>{link.label}</a>
+        ))}
+      </div>
+      <div class="nav-cta">
+        <a
+          href={navCta.url}
+          target={navCta.openInNewTab ? '_blank' : undefined}
+          rel={navCta.openInNewTab ? 'noopener' : undefined}
+          class="btn btn-primary nav-btn"
+        >
+          {navCta.label}
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <section id="blog-index">
+    <div class="wrap">
+      <h1>From the blog</h1>
+      <p class="sub">Notes on landing pages, conversion, and B2B SaaS marketing.</p>
+
+      {posts?.length ? (
+        <div class="blog-grid">
+          {posts.map((post) => (
+            <a href={`/blog/${post.slug?.current}`} class="blog-card">
+              <div
+                class="blog-thumb"
+                style={post.mainImage ? `background-image:url(${urlFor(post.mainImage).width(600).url()});` : ''}
+              ></div>
+              <h3>{post.title}</h3>
+              {post.excerpt && <p class="excerpt">{post.excerpt}</p>}
+              <time>
+                {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
+              </time>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="empty">No posts published yet — check back soon.</p>
+      )}
+    </div>
+  </section>
+
+  <footer>
+    <span>{footerText}</span>
+  </footer>
+</body>
+</html>
+
+<style>
+  :root {
+    --ink: #0B1220;
+    --ink-soft: #5B6472;
+    --ink-faint: #94A3B8;
+    --blue: #2A5BFF;
+    --off-white: #FAF9F6;
+    --line: #E7EAF0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink);
+    background: #FFFFFF;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  .nav-bar { background: var(--off-white); border-bottom: 1px solid var(--line); }
+  nav {
+    max-width: 1080px; margin: 0 auto; padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .logo { font-weight: 700; font-size: 16px; }
+  .links { display: flex; gap: 28px; font-size: 14px; color: var(--ink-soft); }
+  .links a:hover { color: var(--ink); }
+  .btn { display: inline-block; padding: 10px 20px; border-radius: 999px; font-weight: 600; font-size: 14px; }
+  .btn-primary { background: var(--blue); color: #fff; }
+
+  #blog-index { padding: 64px 0 100px; }
+  h1 { font-size: 36px; margin: 0 0 8px; }
+  .sub { color: var(--ink-soft); margin: 0 0 40px; }
+
+  .blog-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 28px;
+  }
+  .blog-card { display: block; }
+  .blog-thumb {
+    aspect-ratio: 16/10; background: var(--off-white) center/cover no-repeat;
+    border-radius: 12px; border: 1px solid var(--line); margin-bottom: 14px;
+  }
+  .blog-card h3 { font-size: 18px; margin: 0 0 6px; }
+  .blog-card .excerpt { color: var(--ink-soft); font-size: 14px; margin: 0 0 8px; line-height: 1.5; }
+  .blog-card time { color: var(--ink-faint); font-size: 13px; }
+
+  .empty { color: var(--ink-soft); }
+
+  footer {
+    padding: 28px 24px; border-top: 1px solid var(--line);
+    color: var(--ink-faint); font-size: 13px; text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    nav { flex-wrap: wrap; }
+    .links { gap: 18px; }
+  }
+</style>

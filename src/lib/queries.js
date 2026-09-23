@@ -1,4 +1,3 @@
-
 /**
  * Fetches the single homePage document plus the latest N posts for the
  * blog teaser section (N comes from homePage.blogPostCount).
@@ -98,5 +97,16 @@ export const POST_BY_SLUG_QUERY = `
   author,
   tags,
   body
+}
+`
+
+export const BLOG_LIST_QUERY = `
+*[_type == "post"] | order(publishedAt desc){
+  title,
+  slug,
+  excerpt,
+  mainImage,
+  publishedAt,
+  author
 }
 `
