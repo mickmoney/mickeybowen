@@ -6,9 +6,11 @@ export const HOME_PAGE_QUERY = `
 {
   "page": *[_type == "homePage"][0]{
     heroPreHeadline,
+    heroBadge,
     heroHeadline,
     heroSubtext,
     heroPrimaryCta,
+    heroCtaSubtext,
     heroSecondaryCta,
     heroReassurance,
 
