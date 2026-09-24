@@ -42,7 +42,15 @@ const formattedDate = post?.publishedAt
 <body>
   <div class="nav-bar">
     <nav>
-      <a href="/" class="logo">{settings?.siteName ?? 'Mickey Bowen'}</a>
+      <a href="/" class="logo">
+        <span class="nav-avatar">
+          <img
+            src={settings?.navAvatar ? urlFor(settings.navAvatar).width(72).height(72).url() : '/images/mickey-headshot.jpg'}
+            alt={settings?.siteName ?? 'Mickey Bowen'}
+          />
+        </span>
+        {settings?.siteName ?? 'Mickey Bowen'}
+      </a>
       <div class="links">
         {navLinks.map((link) => (
           <a href={link.anchor}>{link.label}</a>
@@ -145,7 +153,13 @@ const formattedDate = post?.publishedAt
     max-width: 1080px; margin: 0 auto; padding: 16px 24px;
     display: flex; align-items: center; justify-content: space-between; gap: 24px;
   }
-  .logo { font-weight: 700; font-size: 16px; color: var(--ink); text-decoration: none; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; color: var(--ink); text-decoration: none; }
+  .nav-avatar {
+    width: 32px; height: 32px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
+    background: var(--off-white); display: flex; align-items: center; justify-content: center;
+    box-shadow: inset 0 0 0 2px #FFFFFF;
+  }
+  .nav-avatar img { width: 100%; height: 100%; object-fit: cover; }
   .links { display: flex; gap: 28px; font-size: 14px; color: var(--ink-soft); }
   .links a { color: inherit; text-decoration: none; }
   .links a:hover { color: var(--ink); }

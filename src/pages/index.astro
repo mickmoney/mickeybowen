@@ -85,7 +85,7 @@ const seoDescription = page?.seoDescription || settings?.defaultSeoDescription;
     display: flex; align-items: center; justify-content: space-between;
     padding: 26px 32px; max-width: 1080px; margin: 0 auto; box-sizing: border-box;
   }
-  nav .logo { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+  nav .logo { display: flex; align-items: center; gap: 10px; font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
   .nav-cta { display: flex; align-items: center; gap: 10px; }
   .nav-avatar {
     width: 32px; height: 32px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
@@ -308,19 +308,21 @@ const seoDescription = page?.seoDescription || settings?.defaultSeoDescription;
 </style>
 <div class="nav-bar">
 <nav>
-  <span class="logo">{settings?.siteName ?? 'Mickey Bowen'}</span>
-  <div class="links">
-    {navLinks.map((link) => (
-      <a href={link.anchor}>{link.label}</a>
-    ))}
-  </div>
-  <div class="nav-cta">
+  <span class="logo">
     <span class="nav-avatar">
       <img
         src={settings?.navAvatar ? urlFor(settings.navAvatar).width(72).height(72).url() : '/images/mickey-headshot.jpg'}
         alt={settings?.siteName ?? 'Mickey Bowen'}
       />
     </span>
+    {settings?.siteName ?? 'Mickey Bowen'}
+  </span>
+  <div class="links">
+    {navLinks.map((link) => (
+      <a href={link.anchor}>{link.label}</a>
+    ))}
+  </div>
+  <div class="nav-cta">
     <a
       href={navCta.url}
       target={navCta.openInNewTab ? '_blank' : undefined}
