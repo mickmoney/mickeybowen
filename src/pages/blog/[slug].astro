@@ -66,7 +66,11 @@ const formattedDate = post?.publishedAt
     <p class="meta">{formattedDate}{authorLine}</p>
     <h1>{post?.title}</h1>
     {post?.mainImage && (
-      <img class="hero-img" src={urlFor(post.mainImage).width(1200).url()} alt={post.title} />
+      <img
+        class="hero-img"
+        src={urlFor(post.mainImage).width(1200).height(675).fit('crop').crop('top').url()}
+        alt={post.title}
+      />
     )}
     <div class="prose">
       {(post?.body ?? []).map((block) => {
@@ -164,7 +168,7 @@ const formattedDate = post?.publishedAt
   .back { font-size: 13px; font-weight: 600; display: inline-block; margin-bottom: 24px; text-decoration: none; }
   .meta { color: var(--ink-faint); font-size: 13px; margin: 0 0 8px; }
   h1 { font-size: 34px; line-height: 1.2; margin: 0 0 24px; }
-  .hero-img { width: 100%; border-radius: 12px; margin-bottom: 32px; display: block; }
+  .hero-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 12px; margin-bottom: 32px; display: block; }
 
   .prose { font-size: 17px; line-height: 1.7; color: var(--ink); }
   .prose p { margin: 0 0 20px; }

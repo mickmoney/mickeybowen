@@ -60,7 +60,7 @@ const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
             <a href={`/blog/${post.slug?.current}`} class="blog-card">
               <div
                 class="blog-thumb"
-                style={post.mainImage ? `background-image:url(${urlFor(post.mainImage).width(600).url()});` : ''}
+                style={post.mainImage ? `background-image:url(${urlFor(post.mainImage).width(600).height(375).fit('crop').crop('top').url()});` : ''}
               ></div>
               <h3>{post.title}</h3>
               {post.excerpt && <p class="excerpt">{post.excerpt}</p>}
