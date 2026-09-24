@@ -27,7 +27,7 @@ const sprints = [
     tagline: 'A complete, conversion-ready landing page, built and shipped in 14 days.',
     price: '$2,500',
     features: ['Strategy & planning', 'Copy & wireframe', 'Design & build', 'Launch & QA'],
-    featured: false,
+    featured: true,
   },
   {
     duration: '21-Day',
@@ -35,9 +35,16 @@ const sprints = [
     tagline: 'A complete, conversion-ready homepage, built and shipped in 21 days.',
     price: '$3,500',
     features: ['Strategy & planning', 'Copy across every core homepage section', 'Design & build', 'Launch & QA'],
-    featured: true,
+    featured: false,
   },
 ];
+
+const audit = {
+  duration: '3-Day',
+  name: 'Landing Page Audit & Strategy Session',
+  tagline: 'A full audit of your current landing page, scored against my SaaS landing page rubric, plus a strategy session mapping out exactly what to fix first.',
+  price: '$250',
+};
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -110,6 +117,19 @@ const sprints = [
               </a>
             </div>
           ))}
+        </div>
+
+        <div class="audit-card">
+          <div class="audit-info">
+            <p class="duration">{audit.duration}</p>
+            <h3>{audit.name}</h3>
+            <p class="price-desc">{audit.tagline}</p>
+          </div>
+          <div class="audit-action">
+            <p class="price-sub">Starting at</p>
+            <p class="price-tag">{audit.price}</p>
+            <a href="/apply" class="btn btn-secondary">Apply to work with me 1-on-1</a>
+          </div>
         </div>
       </div>
     </section>
@@ -185,6 +205,20 @@ const sprints = [
   .price-list li { display: flex; align-items: center; gap: 10px; font-size: 14.5px; font-weight: 500; }
   .price-card .btn { margin-top: auto; width: 100%; height: 48px; }
 
+  .audit-card {
+    display: flex; align-items: center; justify-content: space-between; gap: 32px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+    padding: 32px 36px; margin-top: 24px; flex-wrap: wrap;
+  }
+  .audit-info { flex: 1 1 380px; min-width: 0; }
+  .audit-info .duration { font-size: 13px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 8px; }
+  .audit-info h3 { font-size: 20px; font-weight: 700; margin: 0 0 8px; }
+  .audit-info .price-desc { font-size: 14.5px; color: var(--ink-soft); line-height: 1.6; margin: 0; max-width: 520px; }
+  .audit-action { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+  .audit-action .price-sub { font-size: 13px; color: var(--ink-faint); margin: 0 0 2px; }
+  .audit-action .price-tag { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; margin: 0; }
+  .audit-action .btn { white-space: nowrap; height: 48px; padding: 0 24px; }
+
   footer {
     padding: 28px 32px; border-top: 1px solid var(--line);
     color: var(--ink-faint); font-size: 13px; text-align: center;
@@ -194,5 +228,8 @@ const sprints = [
     nav { flex-wrap: wrap; }
     .links { display: none; }
     .pricing-grid { grid-template-columns: 1fr; }
+    .audit-card { flex-direction: column; align-items: stretch; padding: 28px 24px; }
+    .audit-action { flex-direction: column; align-items: stretch; gap: 12px; }
+    .audit-action .price-sub, .audit-action .price-tag { text-align: left; }
   }
 </style>
