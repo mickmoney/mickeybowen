@@ -26,7 +26,19 @@ const socialLinks = settings?.socialLinks ?? [];
 
 const rating = page?.socialProofRating ?? 4.5;
 const fullStars = Math.round(rating);
+
+const seoTitle = page?.seoTitle || settings?.defaultSeoTitle || (settings?.siteName ?? 'Mickey Bowen');
+const seoDescription = page?.seoDescription || settings?.defaultSeoDescription;
 ---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{seoTitle}</title>
+  {seoDescription && <meta name="description" content={seoDescription} />}
+</head>
+<body>
 <style>
   :root {
     --ink: #0B1220;
@@ -153,8 +165,9 @@ const fullStars = Math.round(rating);
   .logo-track {
     display: flex;
     align-items: center;
+    gap: 24px;
     width: max-content;
-    animation: logo-scroll 36s linear infinite;
+    animation: logo-scroll 56s linear infinite;
   }
   .logo-track:hover { animation-play-state: paused; }
   .logo-slot { display: flex; align-items: center; justify-content: center; height: 40px; width: 140px; flex-shrink: 0; }
@@ -169,7 +182,7 @@ const fullStars = Math.round(rating);
   }
 
   #testimonials-top { padding: 0 0 64px; }
-  .testi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
   .testi-card { border: 1px solid var(--line); border-radius: 16px; padding: 28px; background: var(--paper-bg); }
   .testi-card p.quote { font-size: 16px; line-height: 1.6; margin: 0 0 18px; font-weight: 500; }
   .testi-who { display: flex; align-items: center; gap: 12px; }
@@ -400,12 +413,19 @@ const fullStars = Math.round(rating);
     // rest matches the shared gray filter below - CSS filters alone can't
     // treat one region of an image differently from the rest.
     const isAdConversion = logo?.asset?._ref === 'image-c28e463027cc9df6e467d6433c1d745031d831bb-290x70-svg';
+    // Same problem as AdConversion: a white "re" cutout sits on a colored
+    // box, so it gets a pre-colored local asset too (box + wordmark baked
+    // to the shared gray, "re" cutout kept white).
+    const isReData = logo?.asset?._ref === 'image-31f7f0f2f7a2fee97343f8b444d0fabf0e30a485-669x288-svg';
     return (
       <div class="logo-slot">
         {logo && isAdConversion && (
           <img src="/images/adconversion-logo-gray.svg" alt="" class="logo-native" />
         )}
-        {logo && !isAdConversion && (
+        {logo && isReData && (
+          <img src="/images/redata-logo-gray.svg" alt="" class="logo-native" />
+        )}
+        {logo && !isAdConversion && !isReData && (
           <img src={urlFor(logo).height(80).url()} alt="" />
         )}
       </div>
@@ -698,3 +718,5 @@ const fullStars = Math.round(rating);
   }, 2800);
 })();
 </script>
+</body>
+</html>
