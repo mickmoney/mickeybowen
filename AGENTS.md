@@ -1,3 +1,7 @@
+## Content rules
+
+- Never use an em dash (—) anywhere in this site's content - not in body copy, headings, testimonials, excerpts, SEO titles, or tags. Use a standard hyphen with spaces around it (" - ") instead. This applies to both hardcoded copy in .astro files and content entered in Sanity. Reason: em dashes read as a tell for AI-generated content.
+
 ## Development
 
 When starting the dev server, use background mode:
