@@ -1,0 +1,198 @@
+---
+import { sanityClient, urlFor } from '../lib/sanityClient';
+import { SITE_SETTINGS_QUERY } from '../lib/queries';
+
+const settings = await sanityClient.fetch(SITE_SETTINGS_QUERY);
+
+const navLinks = settings?.navLinks?.length
+  ? settings.navLinks
+  : [
+      { label: 'Work', anchor: '/#work' },
+      { label: 'Process', anchor: '/#process' },
+      { label: 'Pricing', anchor: '/pricing' },
+      { label: 'About', anchor: '/#about' },
+      { label: 'Blog', anchor: '/blog' },
+    ];
+const navCta = settings?.navCta ?? {
+  label: 'Chat via WhatsApp',
+  url: 'https://wa.me/5016082944',
+  openInNewTab: true,
+};
+const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
+
+const sprints = [
+  {
+    duration: '14-Day',
+    name: 'Landing Page Sprint',
+    tagline: 'A complete, conversion-ready landing page, built and shipped in 14 days.',
+    price: '$2,500',
+    features: ['Strategy & planning', 'Copy & wireframe', 'Design & build', 'Launch & QA'],
+    featured: false,
+  },
+  {
+    duration: '21-Day',
+    name: 'Homepage Sprint',
+    tagline: 'A complete, conversion-ready homepage, built and shipped in 21 days.',
+    price: '$3,500',
+    features: ['Strategy & planning', 'Copy across every core homepage section', 'Design & build', 'Launch & QA'],
+    featured: true,
+  },
+];
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pricing | {settings?.siteName ?? 'Mickey Bowen'}</title>
+  <meta name="description" content="Fixed-price sprints for B2B SaaS landing pages and homepages, done for you start to finish." />
+</head>
+<body>
+  <div class="nav-bar">
+    <nav>
+      <a href="/" class="logo">
+        <span class="nav-avatar">
+          <img
+            src={settings?.navAvatar ? urlFor(settings.navAvatar).width(72).height(72).url() : '/images/mickey-headshot.jpg'}
+            alt={settings?.siteName ?? 'Mickey Bowen'}
+          />
+        </span>
+        {settings?.siteName ?? 'Mickey Bowen'}
+      </a>
+      <div class="links">
+        {navLinks.map((link) => (
+          <a href={link.anchor}>{link.label}</a>
+        ))}
+      </div>
+      <div class="nav-cta">
+        <a
+          href={navCta.url}
+          target={navCta.openInNewTab ? '_blank' : undefined}
+          rel={navCta.openInNewTab ? 'noopener' : undefined}
+          class="btn btn-whatsapp nav-btn"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.48 1.32 5L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C22 6.45 17.5 2 12.04 2zm5.72 14.02c-.24.68-1.4 1.32-1.93 1.4-.49.08-1.11.11-1.79-.11-.41-.13-.94-.31-1.62-.6-2.85-1.23-4.71-4.09-4.85-4.28-.14-.19-1.16-1.54-1.16-2.94s.73-2.09.99-2.38c.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.41-.07.64.49.24.58.81 2 .88 2.15.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.71 1.17 1.52 1.9 1.04.93 1.92 1.22 2.2 1.36.28.14.44.12.6-.07.17-.19.71-.83.9-1.11.19-.28.38-.24.64-.14.26.09 1.66.78 1.94.92.28.14.47.21.54.33.07.12.07.68-.17 1.36z"/></svg>
+          {navCta.label}
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <main>
+    <section class="pricing-hero">
+      <div class="wrap">
+        <h1>Pick your sprint. Get a page that's ready to launch.</h1>
+        <p class="sub">Fixed-price sprints for B2B SaaS pages, done for you start to finish. Everything I build is yours to keep.</p>
+      </div>
+    </section>
+
+    <section class="pricing-section">
+      <div class="wrap">
+        <div class="pricing-grid">
+          {sprints.map((sprint) => (
+            <div class={`price-card ${sprint.featured ? 'featured' : ''}`}>
+              {sprint.featured && <span class="price-badge">Most popular</span>}
+              <p class="duration">{sprint.duration}</p>
+              <h3>{sprint.name}</h3>
+              <p class="price-desc">{sprint.tagline}</p>
+              <p class="price-sub">Starting at</p>
+              <p class="price-tag">{sprint.price}</p>
+              <ul class="price-list">
+                {sprint.features.map((f) => (
+                  <li>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2A5BFF" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <a href="/apply" class={`btn ${sprint.featured ? 'btn-primary' : 'btn-secondary'}`}>
+                Apply to work with me 1-on-1
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>{footerText}</span>
+  </footer>
+</body>
+</html>
+
+<style>
+  :root {
+    --ink: #0B1220;
+    --ink-soft: #5B6472;
+    --ink-faint: #94A3B8;
+    --blue: #2A5BFF;
+    --off-white: #FAF9F6;
+    --line: #E7EAF0;
+    --panel: #F5F7FA;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding-top: 72px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink);
+    background: #FFFFFF;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+  .nav-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255, 255, 255, 0.8);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  }
+  nav {
+    max-width: 1080px; margin: 0 auto; padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; }
+  .nav-avatar {
+    width: 32px; height: 32px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
+    background: var(--off-white); display: flex; align-items: center; justify-content: center;
+    box-shadow: inset 0 0 0 2px #FFFFFF;
+  }
+  .nav-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .links { display: flex; gap: 28px; font-size: 14px; color: var(--ink-soft); }
+  .links a:hover { color: var(--ink); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; border-radius: 999px; font-weight: 600; font-size: 14px; border: none; cursor: pointer; font-family: inherit; }
+  nav .btn { height: 40px; padding: 0 20px; font-size: 14px; }
+  .btn-primary { background: var(--blue); color: #fff; }
+  .btn-secondary { background: transparent; color: var(--ink); border: 1.5px solid var(--line); }
+  .btn-whatsapp { background: #fff; color: var(--ink); border: 1.5px solid rgba(11, 18, 32, 0.2); }
+  .btn-whatsapp svg { flex-shrink: 0; color: #25D366; }
+
+  .pricing-hero { padding: 64px 0 16px; text-align: center; }
+  .pricing-hero h1 { font-size: clamp(30px, 4vw, 44px); line-height: 1.15; margin: 0 auto 16px; max-width: 680px; letter-spacing: -0.02em; font-weight: 800; }
+  .pricing-hero .sub { font-size: 17px; color: var(--ink-soft); line-height: 1.6; max-width: 520px; margin: 0 auto; }
+
+  .pricing-section { padding: 48px 0 96px; }
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch; }
+  .price-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 36px 32px; display: flex; flex-direction: column; position: relative; }
+  .price-card.featured { border: 1.5px solid var(--blue); box-shadow: 0 4px 24px rgba(42, 91, 255, 0.08); }
+  .price-badge { position: absolute; top: -12px; left: 32px; background: var(--blue); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 999px; letter-spacing: 0.02em; }
+  .price-card .duration { font-size: 13px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 8px; }
+  .price-card h3 { font-size: 22px; font-weight: 700; margin: 0 0 10px; }
+  .price-card .price-desc { font-size: 14.5px; color: var(--ink-soft); line-height: 1.6; margin: 0 0 22px; }
+  .price-card .price-sub { font-size: 13px; color: var(--ink-faint); margin: 0; }
+  .price-card .price-tag { font-size: 38px; font-weight: 800; letter-spacing: -0.02em; margin: 2px 0 20px; }
+  .price-list { list-style: none; margin: 0 0 28px; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .price-list li { display: flex; align-items: center; gap: 10px; font-size: 14.5px; font-weight: 500; }
+  .price-card .btn { margin-top: auto; width: 100%; height: 48px; }
+
+  footer {
+    padding: 28px 32px; border-top: 1px solid var(--line);
+    color: var(--ink-faint); font-size: 13px; text-align: center;
+  }
+
+  @media (max-width: 760px) {
+    nav { flex-wrap: wrap; }
+    .links { display: none; }
+    .pricing-grid { grid-template-columns: 1fr; }
+  }
+</style>

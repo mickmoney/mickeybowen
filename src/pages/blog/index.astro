@@ -10,6 +10,7 @@ const navLinks = settings?.navLinks?.length
   : [
       { label: 'Work', anchor: '/#work' },
       { label: 'Process', anchor: '/#process' },
+      { label: 'Pricing', anchor: '/pricing' },
       { label: 'About', anchor: '/#about' },
       { label: 'Blog', anchor: '/blog' },
     ];
@@ -135,7 +136,7 @@ const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
   .links a:hover { color: var(--ink); }
   .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 999px; font-weight: 600; font-size: 14px; }
   .btn-primary { background: var(--blue); color: #fff; }
-  .btn-whatsapp { background: #fff; color: var(--ink); border: 1.5px solid #9FE6BE; }
+  .btn-whatsapp { background: #fff; color: var(--ink); border: 1.5px solid rgba(11, 18, 32, 0.2); }
   .btn-whatsapp svg { flex-shrink: 0; color: #25D366; }
 
   #blog-index { padding: 64px 0 100px; }
