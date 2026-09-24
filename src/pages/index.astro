@@ -56,6 +56,7 @@ const seoDescription = page?.seoDescription || settings?.defaultSeoDescription;
   * { box-sizing: border-box; }
   body {
     margin: 0;
+    padding-top: 72px;
     background: var(--paper-bg);
     color: var(--ink);
     font-family: 'Inter', -apple-system, sans-serif;
@@ -80,10 +81,14 @@ const seoDescription = page?.seoDescription || settings?.defaultSeoDescription;
   .cta-subtext { font-size: 13.5px; color: var(--ink-soft); margin: -6px 0 14px; }
   section { scroll-margin-top: 24px; }
 
-  .nav-bar { background: #FAF9F6; border-bottom: 1px solid var(--line); }
+  .nav-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255, 255, 255, 0.8);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  }
   nav {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 26px 32px; max-width: 1080px; margin: 0 auto; box-sizing: border-box;
+    padding: 16px 32px; max-width: 1080px; margin: 0 auto; box-sizing: border-box;
   }
   nav .logo { display: flex; align-items: center; gap: 10px; font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
   .nav-cta { display: flex; align-items: center; gap: 10px; }
@@ -104,8 +109,11 @@ const seoDescription = page?.seoDescription || settings?.defaultSeoDescription;
   .btn:hover { opacity: 0.9; }
   .btn-primary { background: var(--blue); color: #FFFFFF; height: 48px; padding: 0 26px; }
   .btn-secondary { background: transparent; color: var(--ink); border: 1.5px solid var(--line); height: 48px; padding: 0 26px; }
-  .btn-whatsapp { background: #25D366; color: #FFFFFF; height: 48px; padding: 0 26px; }
-  .btn-whatsapp svg { flex-shrink: 0; }
+  .btn-whatsapp {
+    background: #FFFFFF; color: var(--ink); border: 1.5px solid #9FE6BE;
+    height: 48px; padding: 0 26px;
+  }
+  .btn-whatsapp svg { flex-shrink: 0; color: #25D366; }
   .btn-link { font-size: 15px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; display: inline-flex; align-items: center; gap: 6px; }
   nav .btn-primary, nav .btn-whatsapp { height: 40px; padding: 0 20px; font-size: 14px; border-radius: 999px; }
 
@@ -116,7 +124,7 @@ const seoDescription = page?.seoDescription || settings?.defaultSeoDescription;
   #hero h1 { font-size: clamp(34px, 4.4vw, 52px); line-height: 1.08; margin: 0 0 22px; max-width: 600px; }
   #hero p.lede { font-size: 17px; color: var(--ink-soft); line-height: 1.65; margin: 0 0 32px; max-width: 460px; font-weight: 400; }
   .btn-row { display: flex; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
-  .reassure { display: flex; gap: 22px; flex-wrap: wrap; }
+  .reassure { display: flex; gap: 22px; flex-wrap: wrap; margin: 0 0 24px; }
   .reassure-item { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-soft); font-weight: 500; }
   .reassure-item svg { flex-shrink: 0; }
 
@@ -346,6 +354,14 @@ const seoDescription = page?.seoDescription || settings?.defaultSeoDescription;
     </div>
     <h1>{page?.heroHeadline}</h1>
     <p class="lede">{page?.heroSubtext}</p>
+    <div class="reassure">
+      {(page?.heroReassurance ?? []).map((item) => (
+        <div class="reassure-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2A5BFF" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+          {item}
+        </div>
+      ))}
+    </div>
     <div class="btn-row">
       {page?.heroPrimaryCta && (
         <a
@@ -370,14 +386,6 @@ const seoDescription = page?.seoDescription || settings?.defaultSeoDescription;
       )}
     </div>
     {page?.heroCtaSubtext && <p class="cta-subtext">{page.heroCtaSubtext}</p>}
-    <div class="reassure">
-      {(page?.heroReassurance ?? []).map((item) => (
-        <div class="reassure-item">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2A5BFF" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-          {item}
-        </div>
-      ))}
-    </div>
   </div>
   <div class="hero-carousel">
     <div class="ctrack">

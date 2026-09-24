@@ -71,6 +71,14 @@ export const HOME_PAGE_QUERY = `
 }
 `
 
+export const APPLY_PAGE_QUERY = `
+*[_type == "homePage"][0]{
+  testimonialsTop[0...3]{photo},
+  socialProofRating,
+  socialProofText
+}
+`
+
 export const SITE_SETTINGS_QUERY = `
 *[_type == "siteSettings"][0]{
   siteName,

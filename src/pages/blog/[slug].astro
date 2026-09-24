@@ -141,6 +141,7 @@ const formattedDate = post?.publishedAt
   * { box-sizing: border-box; }
   body {
     margin: 0;
+    padding-top: 72px;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--ink);
     background: #FFFFFF;
@@ -148,7 +149,11 @@ const formattedDate = post?.publishedAt
   a { color: var(--blue); }
   .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
 
-  .nav-bar { background: var(--off-white); border-bottom: 1px solid var(--line); }
+  .nav-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255, 255, 255, 0.8);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  }
   nav {
     max-width: 1080px; margin: 0 auto; padding: 16px 24px;
     display: flex; align-items: center; justify-content: space-between; gap: 24px;
@@ -165,8 +170,8 @@ const formattedDate = post?.publishedAt
   .links a:hover { color: var(--ink); }
   .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 999px; font-weight: 600; font-size: 14px; text-decoration: none; }
   .btn-primary { background: var(--blue); color: #fff; }
-  .btn-whatsapp { background: #25D366; color: #fff; }
-  .btn-whatsapp svg { flex-shrink: 0; }
+  .btn-whatsapp { background: #fff; color: var(--ink); border: 1.5px solid #9FE6BE; }
+  .btn-whatsapp svg { flex-shrink: 0; color: #25D366; }
 
   article { padding: 64px 24px 56px; }
   .back-bottom { display: block; margin: 56px 0 0; }
