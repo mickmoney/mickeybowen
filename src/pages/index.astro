@@ -17,7 +17,7 @@ const navLinks = settings?.navLinks?.length
       { label: 'Blog', anchor: '#blog' },
     ];
 const navCta = settings?.navCta ?? {
-  label: 'Chat with Mickey',
+  label: 'Chat via WhatsApp',
   url: 'https://wa.me/5016082944',
   openInNewTab: true,
 };
@@ -192,8 +192,8 @@ const seoDescription = page?.seoDescription || settings?.defaultSeoDescription;
   }
 
   #testimonials-top { padding: 0 0 64px; }
-  .testi-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-  .testi-card { flex: 1 1 280px; max-width: 380px; border: 1px solid var(--line); border-radius: 16px; padding: 28px; background: var(--paper-bg); }
+  .testi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .testi-card { border: 1px solid var(--line); border-radius: 16px; padding: 28px; background: var(--paper-bg); }
   .testi-card p.quote { font-size: 16px; line-height: 1.6; margin: 0 0 18px; font-weight: 500; }
   .testi-who { display: flex; align-items: center; gap: 12px; }
   .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--swatch); flex-shrink: 0; }
@@ -287,8 +287,7 @@ const seoDescription = page?.seoDescription || settings?.defaultSeoDescription;
     #hero { grid-template-columns: 1fr; padding-top: 40px; }
     .hero-photo { order: -1; margin-bottom: 8px; }
     .hero-photo-frame { max-width: 240px; }
-    .work-grid, .blog-grid, .pricing-grid { grid-template-columns: 1fr; }
-    .testi-card { flex-basis: 100%; max-width: 100%; }
+    .testi-grid, .work-grid, .blog-grid, .pricing-grid { grid-template-columns: 1fr; }
     .pain-grid { grid-template-columns: repeat(2, 1fr); }
     .about-grid { grid-template-columns: 1fr; text-align: left; }
     .about-photo { margin: 0 0 16px; max-width: 200px; }
