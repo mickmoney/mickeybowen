@@ -191,6 +191,26 @@ const heroReassurance = page?.heroReassurance?.length
   .price-list li { display: flex; align-items: center; gap: 10px; font-size: 14.5px; font-weight: 500; }
   .price-card .btn { margin-top: auto; width: 100%; justify-content: center; }
 
+  .audit-card {
+    display: flex; align-items: center; justify-content: space-between; gap: 32px;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 16px;
+    padding: 32px 36px; margin-top: 24px; flex-wrap: wrap;
+  }
+  .audit-info { flex: 1 1 380px; min-width: 0; }
+  .audit-info .duration { font-size: 12px; font-weight: 500; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 10px; }
+  .audit-info h3 { font-size: 20px; font-weight: 700; margin: 0 0 8px; font-family: 'Inter', sans-serif; }
+  .audit-info .price-desc { font-size: 14.5px; color: var(--ink-soft); line-height: 1.65; margin: 0; max-width: 520px; }
+  .audit-action { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+  .audit-action .price-sub { font-size: 13px; color: var(--ink-soft); margin: 0 0 2px; }
+  .audit-action .price-tag { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; margin: 0; }
+  .audit-action .btn { white-space: nowrap; height: 48px; padding: 0 24px; width: auto; }
+
+  @media (max-width: 760px) {
+    .audit-card { flex-direction: column; align-items: stretch; padding: 28px 24px; }
+    .audit-action { flex-direction: column; align-items: stretch; gap: 12px; }
+    .audit-action .price-sub, .audit-action .price-tag { text-align: left; }
+  }
+
   #about { padding: 96px 0; border-bottom: 1px solid var(--line); }
   .about-grid { display: grid; grid-template-columns: 0.55fr 1fr; gap: 48px; align-items: center; }
   .about-photo { width: 100%; max-width: 320px; aspect-ratio: 1/1; border-radius: 50%; background: var(--panel); display: flex; align-items: center; justify-content: center; overflow: hidden; }
@@ -459,35 +479,67 @@ const heroReassurance = page?.heroReassurance?.length
     <p class="eyebrow">{page?.pricingEyebrow}</p>
     <h2>{page?.pricingHeading}</h2>
     <p class="body">{page?.pricingBody}</p>
-    <div class="pricing-grid">
-      {(page?.pricingPlans ?? []).map((plan) => (
-        <div class="price-card">
-          {plan.featured && plan.badge && <span class="price-badge">{plan.badge}</span>}
-          <h3>{plan.name}</h3>
-          <p class="price-tag">{plan.price}</p>
-          {plan.priceSub && <p class="price-sub">{plan.priceSub}</p>}
-          {plan.description && <p class="price-desc">{plan.description}</p>}
-          <ul class="price-list">
-            {(plan.features ?? []).map((f) => (
-              <li>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-                {f}
-              </li>
+    {(() => {
+      const plans = page?.pricingPlans ?? [];
+      const sprintPlans = plans.slice(0, 2);
+      const auditPlan = plans[2];
+      return (
+        <>
+          <div class="pricing-grid">
+            {sprintPlans.map((plan) => (
+              <div class="price-card">
+                {plan.featured && plan.badge && <span class="price-badge">{plan.badge}</span>}
+                <h3>{plan.name}</h3>
+                <p class="price-tag">{plan.price}</p>
+                {plan.priceSub && <p class="price-sub">{plan.priceSub}</p>}
+                {plan.description && <p class="price-desc">{plan.description}</p>}
+                <ul class="price-list">
+                  {(plan.features ?? []).map((f) => (
+                    <li>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                {plan.cta && (
+                  <a
+                    href={plan.cta.url}
+                    target={plan.cta.openInNewTab ? '_blank' : undefined}
+                    rel={plan.cta.openInNewTab ? 'noopener' : undefined}
+                    class={`btn ${plan.featured ? 'btn-primary' : 'btn-secondary'}`}
+                  >
+                    {plan.cta.label}
+                  </a>
+                )}
+              </div>
             ))}
-          </ul>
-          {plan.cta && (
-            <a
-              href={plan.cta.url}
-              target={plan.cta.openInNewTab ? '_blank' : undefined}
-              rel={plan.cta.openInNewTab ? 'noopener' : undefined}
-              class={`btn ${plan.featured ? 'btn-primary' : 'btn-secondary'}`}
-            >
-              {plan.cta.label}
-            </a>
+          </div>
+          {auditPlan && (
+            <div class="audit-card">
+              <div class="audit-info">
+                {auditPlan.priceSub && <p class="duration">{auditPlan.priceSub}</p>}
+                <h3>{auditPlan.name}</h3>
+                {auditPlan.description && <p class="price-desc">{auditPlan.description}</p>}
+              </div>
+              <div class="audit-action">
+                <p class="price-sub">Starting at</p>
+                <p class="price-tag">{auditPlan.price}</p>
+                {auditPlan.cta && (
+                  <a
+                    href={auditPlan.cta.url}
+                    target={auditPlan.cta.openInNewTab ? '_blank' : undefined}
+                    rel={auditPlan.cta.openInNewTab ? 'noopener' : undefined}
+                    class="btn btn-secondary"
+                  >
+                    {auditPlan.cta.label}
+                  </a>
+                )}
+              </div>
+            </div>
           )}
-        </div>
-      ))}
-    </div>
+        </>
+      );
+    })()}
   </div>
 </section>
 
