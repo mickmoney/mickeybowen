@@ -19,11 +19,12 @@ const navLinks = settings?.navLinks?.length
       { label: 'Pricing', anchor: '/pricing' },
       { label: 'About', anchor: '/#about' },
       { label: 'Blog', anchor: '/blog' },
+      { label: 'Contact', anchor: '/contact' },
     ];
 const navCta = settings?.navCta ?? {
   label: 'Chat with Mickey',
-  url: 'https://wa.me/5016082944',
-  openInNewTab: true,
+  url: '/contact',
+  openInNewTab: false,
 };
 const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
 
@@ -42,7 +43,7 @@ const formattedDate = post?.publishedAt
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <title>{post?.title ?? 'Post'} | {settings?.siteName ?? 'Mickey Bowen'}</title>
   {post?.excerpt && <meta name="description" content={post.excerpt} />}
 </head>
@@ -56,7 +57,7 @@ const formattedDate = post?.publishedAt
             alt={settings?.siteName ?? 'Mickey Bowen'}
           />
         </span>
-        {(settings?.siteName ?? 'Mickey Bowen').toLowerCase()}
+        {settings?.siteName ?? 'Mickey Bowen'}
       </a>
       <div class="links">
         {navLinks.map((link) => (
@@ -153,7 +154,7 @@ const formattedDate = post?.publishedAt
     background: var(--bg);
   }
   a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
-  h1, h2 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; letter-spacing: -0.01em; }
+  h1, h2 { font-family: 'Lora', Georgia, serif; font-weight: 600; letter-spacing: -0.01em; }
   .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
 
   .nav-bar {
@@ -165,7 +166,7 @@ const formattedDate = post?.publishedAt
     max-width: 1080px; margin: 0 auto; padding: 16px 24px;
     display: flex; align-items: center; justify-content: space-between; gap: 24px;
   }
-  .logo { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; color: var(--ink); text-decoration: none; text-transform: lowercase; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; color: var(--ink); text-decoration: none; }
   .nav-avatar {
     width: 32px; height: 32px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
     background: var(--line); display: flex; align-items: center; justify-content: center;
@@ -206,7 +207,7 @@ const formattedDate = post?.publishedAt
   .prose h3 { font-size: 19px; margin: 28px 0 10px; font-family: 'Inter', sans-serif; font-weight: 700; }
   .prose blockquote {
     margin: 24px 0; padding: 4px 20px; border-left: 3px solid var(--ink);
-    color: var(--ink-soft); font-family: 'Fraunces', Georgia, serif; font-style: italic;
+    color: var(--ink-soft); font-family: 'Lora', Georgia, serif; font-style: italic;
   }
   .prose img { max-width: 100%; border-radius: 10px; margin: 24px 0; border: 1px solid var(--line); }
   .prose ul, .prose ol { margin: 0 0 20px; padding-left: 24px; }

@@ -1,8 +1,7 @@
 ---
-import { sanityClient, urlFor } from '../../lib/sanityClient';
-import { BLOG_LIST_QUERY, SITE_SETTINGS_QUERY } from '../../lib/queries';
+import { sanityClient, urlFor } from '../lib/sanityClient';
+import { SITE_SETTINGS_QUERY } from '../lib/queries';
 
-const posts = await sanityClient.fetch(BLOG_LIST_QUERY);
 const settings = await sanityClient.fetch(SITE_SETTINGS_QUERY);
 
 const navLinks = settings?.navLinks?.length
@@ -33,7 +32,8 @@ const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <title>Blog | {settings?.siteName ?? 'Mickey Bowen'}</title>
+  <title>Contact | {settings?.siteName ?? 'Mickey Bowen'}</title>
+  <meta name="description" content="Get in touch with Mickey Bowen about your next B2B SaaS landing page." />
 </head>
 <body>
   <div class="nav-bar">
@@ -65,36 +65,37 @@ const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
     </nav>
   </div>
 
-  <section id="blog-index">
-    <div class="wrap">
-      <h1>From the blog</h1>
-      <p class="sub">Notes on landing pages, conversion, and B2B SaaS marketing.</p>
+  <main>
+    <div class="contact-wrap">
+      <div class="contact-head">
+        <h1>Let's talk about your landing page.</h1>
+        <p class="sub">Fill out the form below, or reach out directly on WhatsApp if that's easier.</p>
+      </div>
 
-      {posts?.length ? (
-        <div class="blog-grid">
-          {posts.map((post) => (
-            <a href={`/blog/${post.slug?.current}`} class="blog-card">
-              <div
-                class="blog-thumb"
-                style={post.mainImage ? `background-image:url(${urlFor(post.mainImage).width(600).height(375).fit('crop').crop('top').url()});` : ''}
-              ></div>
-              <h3>{post.title}</h3>
-              {post.excerpt && <p class="excerpt">{post.excerpt}</p>}
-              <time>
-                {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric',
-                })}
-              </time>
-            </a>
-          ))}
+      <div class="contact-grid">
+        <div class="form-card">
+          <!-- HTML embed: contact form goes here -->
+          <div class="embed-placeholder">
+            <p>Contact form embed goes here.</p>
+          </div>
         </div>
-      ) : (
-        <p class="empty">No posts published yet - check back soon.</p>
-      )}
+
+        <div class="whatsapp-card">
+          <h2>Prefer to chat?</h2>
+          <p>Message Mickey directly on WhatsApp.</p>
+          <a
+            href="https://wa.me/5016082944"
+            target="_blank"
+            rel="noopener"
+            class="btn btn-secondary whatsapp-btn"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.71.45 3.37 1.3 4.84L2 22l5.37-1.4a9.9 9.9 0 0 0 4.67 1.19h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.84 9.84 0 0 0 12.04 2Zm0 1.67c2.21 0 4.29.86 5.85 2.42a8.23 8.23 0 0 1 2.43 5.82c0 4.55-3.7 8.25-8.25 8.25h-.01a8.3 8.3 0 0 1-4.2-1.15l-.3-.18-3.19.84.85-3.11-.2-.32a8.19 8.19 0 0 1-1.26-4.37c0-4.55 3.71-8.2 8.28-8.2Zm-4.53 4.6c-.16 0-.42.06-.64.3-.22.24-.85.83-.85 2.03s.87 2.36.99 2.52c.12.16 1.69 2.7 4.18 3.69 2.07.82 2.49.66 2.94.62.45-.04 1.46-.6 1.66-1.18.2-.58.2-1.08.14-1.18-.06-.1-.22-.16-.46-.28-.24-.12-1.46-.72-1.69-.8-.23-.08-.39-.12-.56.12-.17.24-.63.8-.78.97-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.95-1.21-.72-.64-1.2-1.43-1.35-1.67-.14-.24-.02-.38.1-.5.12-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.56-1.37-.78-1.87-.2-.49-.4-.42-.56-.43h-.15Z"/></svg>
+            Chat on WhatsApp
+          </a>
+        </div>
+      </div>
     </div>
-  </section>
+  </main>
 
   <footer>
     <span>{footerText}</span>
@@ -120,8 +121,7 @@ const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
     background: var(--bg);
   }
   a { color: inherit; text-decoration: none; }
-  h1 { font-family: 'Lora', Georgia, serif; font-weight: 600; letter-spacing: -0.01em; }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  h1, h2 { font-family: 'Lora', Georgia, serif; font-weight: 600; }
 
   .nav-bar {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -141,34 +141,41 @@ const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
   .nav-avatar img { width: 100%; height: 100%; object-fit: cover; }
   .links { display: flex; gap: 28px; font-size: 14px; color: var(--ink); }
   .links a:hover { opacity: 0.7; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 999px; font-weight: 600; font-size: 14px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 22px; border-radius: 999px; font-weight: 600; font-size: 14px; border: none; cursor: pointer; font-family: inherit; }
   .btn-primary { background: var(--ink); color: var(--bg); }
+  .btn-secondary { background: transparent; color: var(--ink); border: 1px solid var(--line); }
 
-  #blog-index { padding: 72px 0 100px; }
-  h1 { font-size: 36px; margin: 0 0 8px; }
-  .sub { color: var(--ink-soft); margin: 0 0 40px; }
+  main { padding: 64px 24px 96px; }
+  .contact-wrap { max-width: 880px; margin: 0 auto; }
+  .contact-head { text-align: center; margin-bottom: 40px; }
+  .contact-head h1 { font-size: clamp(26px, 3.4vw, 36px); line-height: 1.2; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .contact-head .sub { font-size: 15.5px; color: var(--ink-soft); margin: 0; }
 
-  .blog-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 28px;
+  .contact-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: start; }
+
+  .form-card, .whatsapp-card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 20px;
+    padding: 36px clamp(24px, 4vw, 40px);
   }
-  .blog-card { display: block; }
-  .blog-thumb {
-    aspect-ratio: 16/10; background: var(--panel) center/cover no-repeat;
-    border-radius: 12px; border: 1px solid var(--line); margin-bottom: 14px;
+  .embed-placeholder {
+    border: 1px dashed var(--line); border-radius: 12px; padding: 48px 20px;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    color: var(--ink-faint); font-size: 14px; min-height: 280px;
   }
-  .blog-card h3 { font-size: 18px; margin: 0 0 6px; font-family: 'Inter', sans-serif; font-weight: 600; }
-  .blog-card .excerpt { color: var(--ink-soft); font-size: 14px; margin: 0 0 8px; line-height: 1.5; }
-  .blog-card time { color: var(--ink-faint); font-size: 13px; }
 
-  .empty { color: var(--ink-soft); }
+  .whatsapp-card { display: flex; flex-direction: column; }
+  .whatsapp-card h2 { font-size: 20px; margin: 0 0 8px; }
+  .whatsapp-card p { font-size: 14.5px; color: var(--ink-soft); margin: 0 0 22px; line-height: 1.6; }
+  .whatsapp-btn { width: 100%; height: 48px; margin-top: auto; }
 
   footer {
     padding: 28px 24px; border-top: 1px solid var(--line);
     color: var(--ink-faint); font-size: 13px; text-align: center;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 760px) {
     nav { flex-wrap: wrap; }
-    .links { gap: 18px; }
+    .links { display: none; }
+    .contact-grid { grid-template-columns: 1fr; }
   }
 </style>

@@ -12,13 +12,20 @@ const navLinks = settings?.navLinks?.length
       { label: 'Pricing', anchor: '/pricing' },
       { label: 'About', anchor: '/#about' },
       { label: 'Blog', anchor: '/blog' },
+      { label: 'Contact', anchor: '/contact' },
     ];
 const navCta = settings?.navCta ?? {
   label: 'Chat with Mickey',
-  url: 'https://wa.me/5016082944',
-  openInNewTab: true,
+  url: '/contact',
+  openInNewTab: false,
 };
 const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
+
+const mariaTestimonial = {
+  quote: "Mickey and his team took our ad strategy full circle with helping think outside the box and think of the full customer journey experience. This helped us reduce friction and also control every step to guarantee not only conversions but good quality ones. He's strategic and creative and all around great person to work with.",
+  name: 'Maria Velasquez',
+  role: 'Cybersecurity Marketer, CPG Bev Founder',
+};
 
 const sprints = [
   {
@@ -28,6 +35,7 @@ const sprints = [
     price: '$2,500',
     features: ['Strategy & planning', 'Copy & wireframe', 'Design & build', 'Launch & QA'],
     featured: true,
+    testimonial: mariaTestimonial,
   },
   {
     duration: '21-Day',
@@ -44,6 +52,7 @@ const audit = {
   name: 'Landing Page Audit & Strategy Session',
   tagline: 'A full audit of your current landing page, scored against my SaaS landing page rubric, plus a strategy session mapping out exactly what to fix first.',
   price: '$250',
+  testimonial: mariaTestimonial,
 };
 ---
 <!DOCTYPE html>
@@ -56,7 +65,7 @@ const audit = {
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <title>Pricing | {settings?.siteName ?? 'Mickey Bowen'}</title>
   <meta name="description" content="Fixed-price sprints for B2B SaaS landing pages and homepages, done for you start to finish." />
 </head>
@@ -70,7 +79,7 @@ const audit = {
             alt={settings?.siteName ?? 'Mickey Bowen'}
           />
         </span>
-        {(settings?.siteName ?? 'Mickey Bowen').toLowerCase()}
+        {settings?.siteName ?? 'Mickey Bowen'}
       </a>
       <div class="links">
         {navLinks.map((link) => (
@@ -120,6 +129,12 @@ const audit = {
               <a href="/apply" class={`btn ${sprint.featured ? 'btn-primary' : 'btn-secondary'}`}>
                 Apply to work with me 1-on-1
               </a>
+              {sprint.testimonial && (
+                <div class="card-testi">
+                  <p class="card-testi-quote">&ldquo;{sprint.testimonial.quote}&rdquo;</p>
+                  <p class="card-testi-who">{sprint.testimonial.name}, {sprint.testimonial.role}</p>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -129,6 +144,12 @@ const audit = {
             <p class="duration">{audit.duration}</p>
             <h3>{audit.name}</h3>
             <p class="price-desc">{audit.tagline}</p>
+            {audit.testimonial && (
+              <div class="card-testi">
+                <p class="card-testi-quote">&ldquo;{audit.testimonial.quote}&rdquo;</p>
+                <p class="card-testi-who">{audit.testimonial.name}, {audit.testimonial.role}</p>
+              </div>
+            )}
           </div>
           <div class="audit-action">
             <p class="price-sub">Starting at</p>
@@ -164,7 +185,7 @@ const audit = {
     background: var(--bg);
   }
   a { color: inherit; text-decoration: none; }
-  h1 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; letter-spacing: -0.01em; }
+  h1 { font-family: 'Lora', Georgia, serif; font-weight: 600; letter-spacing: -0.01em; }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
 
   .nav-bar {
@@ -176,7 +197,7 @@ const audit = {
     max-width: 1080px; margin: 0 auto; padding: 16px 32px;
     display: flex; align-items: center; justify-content: space-between; gap: 24px;
   }
-  .logo { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; text-transform: lowercase; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; }
   .nav-avatar {
     width: 32px; height: 32px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
     background: var(--line); display: flex; align-items: center; justify-content: center;
@@ -206,6 +227,9 @@ const audit = {
   .price-list { list-style: none; margin: 0 0 28px; padding: 0; display: flex; flex-direction: column; gap: 12px; }
   .price-list li { display: flex; align-items: center; gap: 10px; font-size: 14.5px; font-weight: 500; }
   .price-card .btn { margin-top: auto; width: 100%; height: 48px; }
+  .card-testi { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .card-testi-quote { font-size: 13.5px; font-style: italic; font-family: 'Lora', Georgia, serif; color: var(--ink-soft); line-height: 1.55; margin: 0 0 8px; }
+  .card-testi-who { font-size: 12px; color: var(--ink-faint); margin: 0; }
 
   .audit-card {
     display: flex; align-items: center; justify-content: space-between; gap: 32px;

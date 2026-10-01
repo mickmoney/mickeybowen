@@ -51,6 +51,8 @@ export const HOME_PAGE_QUERY = `
     ctaHeading,
     ctaSubtext,
     ctaButton,
+    ctaTestimonialQuote,
+    ctaTestimonialAttribution,
 
     socialProofRating,
     socialProofText,

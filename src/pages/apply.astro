@@ -13,11 +13,12 @@ const navLinks = settings?.navLinks?.length
       { label: 'Pricing', anchor: '/pricing' },
       { label: 'About', anchor: '/#about' },
       { label: 'Blog', anchor: '/blog' },
+      { label: 'Contact', anchor: '/contact' },
     ];
 const navCta = settings?.navCta ?? {
   label: 'Chat with Mickey',
-  url: 'https://wa.me/5016082944',
-  openInNewTab: true,
+  url: '/contact',
+  openInNewTab: false,
 };
 const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
 
@@ -36,7 +37,7 @@ const avatars = (page?.testimonialsTop ?? []).map((t) => t.photo).filter(Boolean
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <title>Apply | {settings?.siteName ?? 'Mickey Bowen'}</title>
   <meta name="description" content="Tell me a bit about your team so I can see if a landing page sprint is the right fit." />
 </head>
@@ -50,7 +51,7 @@ const avatars = (page?.testimonialsTop ?? []).map((t) => t.photo).filter(Boolean
             alt={settings?.siteName ?? 'Mickey Bowen'}
           />
         </span>
-        {(settings?.siteName ?? 'Mickey Bowen').toLowerCase()}
+        {settings?.siteName ?? 'Mickey Bowen'}
       </a>
       <div class="links">
         {navLinks.map((link) => (
@@ -121,7 +122,7 @@ const avatars = (page?.testimonialsTop ?? []).map((t) => t.photo).filter(Boolean
           </fieldset>
 
           <a
-            href={navCta.url}
+            href="https://wa.me/5016082944"
             target="_blank"
             rel="noopener"
             class="btn btn-primary next-btn"
@@ -160,7 +161,7 @@ const avatars = (page?.testimonialsTop ?? []).map((t) => t.photo).filter(Boolean
     background: var(--bg);
   }
   a { color: inherit; text-decoration: none; }
-  h1 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; }
+  h1 { font-family: 'Lora', Georgia, serif; font-weight: 600; }
 
   .nav-bar {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -171,7 +172,7 @@ const avatars = (page?.testimonialsTop ?? []).map((t) => t.photo).filter(Boolean
     max-width: 1080px; margin: 0 auto; padding: 16px 24px;
     display: flex; align-items: center; justify-content: space-between; gap: 24px;
   }
-  .logo { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; text-transform: lowercase; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; }
   .nav-avatar {
     width: 32px; height: 32px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
     background: var(--line); display: flex; align-items: center; justify-content: center;

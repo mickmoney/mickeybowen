@@ -16,17 +16,15 @@ const navLinks = settings?.navLinks?.length
       { label: 'Pricing', anchor: '/pricing' },
       { label: 'About', anchor: '#about' },
       { label: 'Blog', anchor: '#blog' },
+      { label: 'Contact', anchor: '/contact' },
     ];
 const navCta = settings?.navCta ?? {
   label: 'Chat with Mickey',
-  url: 'https://wa.me/5016082944',
-  openInNewTab: true,
+  url: '/contact',
+  openInNewTab: false,
 };
 const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
 const socialLinks = settings?.socialLinks ?? [];
-
-const rating = page?.socialProofRating ?? 4.5;
-const fullStars = Math.round(rating);
 
 const seoTitle = page?.seoTitle || settings?.defaultSeoTitle || (settings?.siteName ?? 'Mickey Bowen');
 const seoDescription = page?.seoDescription || settings?.defaultSeoDescription;
@@ -45,7 +43,7 @@ const heroReassurance = page?.heroReassurance?.length
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <title>{seoTitle}</title>
   {seoDescription && <meta name="description" content={seoDescription} />}
 </head>
@@ -70,9 +68,9 @@ const heroReassurance = page?.heroReassurance?.length
     -webkit-font-smoothing: antialiased;
   }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
-  h1, h2 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; letter-spacing: -0.01em; }
+  h1, h2 { font-family: 'Lora', Georgia, serif; font-weight: 600; letter-spacing: -0.01em; }
   a { color: inherit; text-decoration: none; }
-  .serif-italic { font-family: 'Fraunces', Georgia, serif; font-style: italic; font-weight: 400; }
+  .serif-italic { font-family: 'Lora', Georgia, serif; font-style: italic; font-weight: 400; }
   .eyebrow {
     display: inline-flex; align-items: center;
     font-size: 11.5px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
@@ -90,7 +88,7 @@ const heroReassurance = page?.heroReassurance?.length
     display: flex; align-items: center; justify-content: space-between;
     padding: 16px 32px; max-width: 1080px; margin: 0 auto; box-sizing: border-box;
   }
-  nav .logo { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 600; letter-spacing: -0.01em; text-transform: lowercase; }
+  nav .logo { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
   .nav-cta { display: flex; align-items: center; gap: 10px; }
   .nav-avatar {
     width: 32px; height: 32px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
@@ -204,12 +202,26 @@ const heroReassurance = page?.heroReassurance?.length
   #work { padding: 96px 0; border-bottom: 1px solid var(--line); }
   .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .work-tile {
-    background: var(--panel) center/cover no-repeat; border: 1px solid var(--line); border-radius: 16px; aspect-ratio: 4/3;
+    background: var(--panel) top center/cover no-repeat; border: 1px solid var(--line); border-radius: 16px; aspect-ratio: 3/2;
     display: flex; align-items: flex-end; padding: 20px; overflow: hidden;
+    cursor: pointer; text-align: left; width: 100%; font-family: inherit;
   }
   .work-tile span {
     font-size: 14px; font-weight: 600; background: rgba(247, 245, 240, 0.94); color: var(--ink);
     padding: 6px 12px; border-radius: 8px;
+  }
+
+  .lightbox {
+    position: fixed; inset: 0; z-index: 1000; display: none;
+    align-items: center; justify-content: center; padding: 40px;
+    background: rgba(15, 14, 12, 0.88);
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 100%; max-height: 100%; border-radius: 8px; display: block; }
+  .lightbox-close {
+    position: absolute; top: 20px; right: 24px; width: 40px; height: 40px; border-radius: 50%;
+    background: var(--bg); color: var(--ink); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 20px;
   }
 
   #faq { padding: 96px 0; border-bottom: 1px solid var(--line); }
@@ -218,19 +230,19 @@ const heroReassurance = page?.heroReassurance?.length
   .faq-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
   .faq-item .q { font-size: 16px; font-weight: 600; margin: 0 0 10px; }
   .faq-item .a { font-size: 14.5px; color: var(--ink-soft); line-height: 1.65; margin: 0; }
+  .faq-item .a a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
 
   #final-testimonial { padding: 96px 0 0; }
   .final-testi { border: 1px solid var(--line); border-radius: 16px; padding: 36px; max-width: 560px; margin: 0 auto; text-align: center; background: var(--panel); }
   .final-testi p.quote { font-size: 19px; line-height: 1.55; margin: 0 0 14px; font-weight: 500; }
   .final-testi p.who { font-size: 13px; color: var(--ink-soft); margin: 0; }
 
-  #contact { padding: 80px 0 8px; text-align: center; }
+  #contact { padding: 80px 0 64px; text-align: center; }
   #contact h2 { font-size: clamp(24px, 2.8vw, 32px); margin: 0 0 14px; }
   #contact p.sub { font-size: 15px; color: var(--ink-soft); margin: 0 0 26px; }
-
-  #social-proof { padding: 18px 0 64px; text-align: center; }
-  .stars { display: flex; justify-content: center; gap: 3px; margin-bottom: 8px; }
-  #social-proof p { font-size: 13px; color: var(--ink-soft); margin: 0; }
+  .mini-testi { max-width: 440px; margin: 28px auto 0; }
+  .mini-testi-quote { font-size: 14.5px; color: var(--ink-soft); font-style: italic; font-family: 'Lora', Georgia, serif; line-height: 1.55; margin: 0 0 8px; }
+  .mini-testi-who { font-size: 12.5px; color: var(--ink-faint); margin: 0; }
 
   #blog { padding: 96px 0; border-top: 1px solid var(--line); }
   .blog-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 28px; }
@@ -273,7 +285,7 @@ const heroReassurance = page?.heroReassurance?.length
         alt={settings?.siteName ?? 'Mickey Bowen'}
       />
     </span>
-    {(settings?.siteName ?? 'Mickey Bowen').toLowerCase()}
+    {settings?.siteName ?? 'Mickey Bowen'}
   </span>
   <div class="links">
     {navLinks.map((link) => (
@@ -508,19 +520,24 @@ const heroReassurance = page?.heroReassurance?.length
     <p class="eyebrow">{page?.workHeading}</p>
     <div class="work-grid">
       {(page?.workItems ?? []).map((item) => (
-        item.url ? (
-          <a href={item.url} class="work-tile" style={item.image ? `background-image:url(${urlFor(item.image).width(600).url()});` : ''}>
-            <span>{item.title}</span>
-          </a>
-        ) : (
-          <div class="work-tile" style={item.image ? `background-image:url(${urlFor(item.image).width(600).url()});` : ''}>
-            <span>{item.title}</span>
-          </div>
-        )
+        <button
+          type="button"
+          class="work-tile"
+          style={item.image ? `background-image:url(${urlFor(item.image).width(600).url()});` : ''}
+          data-full={item.image ? urlFor(item.image).width(1600).url() : ''}
+          data-title={item.title}
+        >
+          <span>{item.title}</span>
+        </button>
       ))}
     </div>
   </div>
 </section>
+
+<div class="lightbox" id="work-lightbox">
+  <button type="button" class="lightbox-close" id="work-lightbox-close" aria-label="Close preview">&times;</button>
+  <img id="work-lightbox-img" src="" alt="" />
+</div>
 
 <section id="faq">
   <div class="wrap">
@@ -529,7 +546,7 @@ const heroReassurance = page?.heroReassurance?.length
       {(page?.faqItems ?? []).map((item) => (
         <div class="faq-item">
           <p class="q">{item.question}</p>
-          <p class="a">{item.answer}</p>
+          <p class="a" set:html={item.answer} />
         </div>
       ))}
     </div>
@@ -561,19 +578,12 @@ const heroReassurance = page?.heroReassurance?.length
         {page.ctaButton.label}
       </a>
     )}
-  </div>
-</section>
-
-<section id="social-proof">
-  <div class="wrap">
-    <div class="stars">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <svg width="15" height="15" viewBox="0 0 24 24" fill={i < fullStars ? 'var(--ink)' : 'var(--line)'}>
-          <polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/>
-        </svg>
-      ))}
-    </div>
-    <p>{rating} out of 5, {page?.socialProofText}</p>
+    {page?.ctaTestimonialQuote && (
+      <div class="mini-testi">
+        <p class="mini-testi-quote">&ldquo;{page.ctaTestimonialQuote}&rdquo;</p>
+        {page?.ctaTestimonialAttribution && <p class="mini-testi-who">{page.ctaTestimonialAttribution}</p>}
+      </div>
+    )}
   </div>
 </section>
 
@@ -606,5 +616,35 @@ const heroReassurance = page?.heroReassurance?.length
     ))}
   </span>
 </footer>
+
+<script>
+  const lightbox = document.getElementById('work-lightbox');
+  const lightboxImg = document.getElementById('work-lightbox-img');
+  const closeBtn = document.getElementById('work-lightbox-close');
+
+  function openLightbox(src, alt) {
+    if (!lightbox || !lightboxImg || !src) return;
+    lightboxImg.setAttribute('src', src);
+    lightboxImg.setAttribute('alt', alt || '');
+    lightbox.classList.add('open');
+  }
+  function closeLightbox() {
+    lightbox?.classList.remove('open');
+    lightboxImg?.setAttribute('src', '');
+  }
+
+  document.querySelectorAll('.work-tile').forEach((tile) => {
+    tile.addEventListener('click', () => {
+      openLightbox(tile.getAttribute('data-full'), tile.getAttribute('data-title'));
+    });
+  });
+  closeBtn?.addEventListener('click', closeLightbox);
+  lightbox?.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
 </body>
 </html>
