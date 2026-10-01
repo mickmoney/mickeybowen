@@ -15,7 +15,7 @@ const navLinks = settings?.navLinks?.length
       { label: 'Blog', anchor: '/blog' },
     ];
 const navCta = settings?.navCta ?? {
-  label: 'Chat via WhatsApp',
+  label: 'Chat with Mickey',
   url: 'https://wa.me/5016082944',
   openInNewTab: true,
 };
@@ -29,6 +29,9 @@ const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <title>Blog | {settings?.siteName ?? 'Mickey Bowen'}</title>
 </head>
 <body>
@@ -41,7 +44,7 @@ const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
             alt={settings?.siteName ?? 'Mickey Bowen'}
           />
         </span>
-        {settings?.siteName ?? 'Mickey Bowen'}
+        {(settings?.siteName ?? 'Mickey Bowen').toLowerCase()}
       </a>
       <div class="links">
         {navLinks.map((link) => (
@@ -53,9 +56,8 @@ const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
           href={navCta.url}
           target={navCta.openInNewTab ? '_blank' : undefined}
           rel={navCta.openInNewTab ? 'noopener' : undefined}
-          class="btn btn-whatsapp nav-btn"
+          class="btn btn-primary nav-btn"
         >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.48 1.32 5L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C22 6.45 17.5 2 12.04 2zm5.72 14.02c-.24.68-1.4 1.32-1.93 1.4-.49.08-1.11.11-1.79-.11-.41-.13-.94-.31-1.62-.6-2.85-1.23-4.71-4.09-4.85-4.28-.14-.19-1.16-1.54-1.16-2.94s.73-2.09.99-2.38c.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.41-.07.64.49.24.58.81 2 .88 2.15.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.71 1.17 1.52 1.9 1.04.93 1.92 1.22 2.2 1.36.28.14.44.12.6-.07.17-.19.71-.83.9-1.11.19-.28.38-.24.64-.14.26.09 1.66.78 1.94.92.28.14.47.21.54.33.07.12.07.68-.17 1.36z"/></svg>
           {navCta.label}
         </a>
       </div>
@@ -101,12 +103,12 @@ const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
 
 <style>
   :root {
-    --ink: #0B1220;
-    --ink-soft: #5B6472;
-    --ink-faint: #94A3B8;
-    --blue: #2A5BFF;
-    --off-white: #FAF9F6;
-    --line: #E7EAF0;
+    --ink: #0F0E0C;
+    --ink-soft: #6B6558;
+    --ink-faint: #A39C8C;
+    --bg: #F7F5F0;
+    --panel: #FFFFFF;
+    --line: #E5E1D8;
   }
   * { box-sizing: border-box; }
   body {
@@ -114,35 +116,34 @@ const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
     padding-top: 72px;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--ink);
-    background: #FFFFFF;
+    background: var(--bg);
   }
   a { color: inherit; text-decoration: none; }
+  h1 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; letter-spacing: -0.01em; }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 
   .nav-bar {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(247, 245, 240, 0.82);
     -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
   }
   nav {
     max-width: 1080px; margin: 0 auto; padding: 16px 24px;
     display: flex; align-items: center; justify-content: space-between; gap: 24px;
   }
-  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; text-transform: lowercase; }
   .nav-avatar {
     width: 32px; height: 32px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
-    background: var(--off-white); display: flex; align-items: center; justify-content: center;
-    box-shadow: inset 0 0 0 2px #FFFFFF;
+    background: var(--line); display: flex; align-items: center; justify-content: center;
+    box-shadow: inset 0 0 0 2px var(--bg);
   }
   .nav-avatar img { width: 100%; height: 100%; object-fit: cover; }
-  .links { display: flex; gap: 28px; font-size: 14px; color: var(--ink-soft); }
-  .links a:hover { color: var(--ink); }
-  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 999px; font-weight: 600; font-size: 14px; }
-  .btn-primary { background: var(--blue); color: #fff; }
-  .btn-whatsapp { background: #fff; color: var(--ink); border: 1.5px solid rgba(11, 18, 32, 0.2); }
-  .btn-whatsapp svg { flex-shrink: 0; color: #25D366; }
+  .links { display: flex; gap: 28px; font-size: 14px; color: var(--ink); }
+  .links a:hover { opacity: 0.7; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 999px; font-weight: 600; font-size: 14px; }
+  .btn-primary { background: var(--ink); color: var(--bg); }
 
-  #blog-index { padding: 64px 0 100px; }
+  #blog-index { padding: 72px 0 100px; }
   h1 { font-size: 36px; margin: 0 0 8px; }
   .sub { color: var(--ink-soft); margin: 0 0 40px; }
 
@@ -151,10 +152,10 @@ const footerText = settings?.footerText ?? '© 2026 Mickey Bowen';
   }
   .blog-card { display: block; }
   .blog-thumb {
-    aspect-ratio: 16/10; background: var(--off-white) center/cover no-repeat;
+    aspect-ratio: 16/10; background: var(--panel) center/cover no-repeat;
     border-radius: 12px; border: 1px solid var(--line); margin-bottom: 14px;
   }
-  .blog-card h3 { font-size: 18px; margin: 0 0 6px; }
+  .blog-card h3 { font-size: 18px; margin: 0 0 6px; font-family: 'Inter', sans-serif; font-weight: 600; }
   .blog-card .excerpt { color: var(--ink-soft); font-size: 14px; margin: 0 0 8px; line-height: 1.5; }
   .blog-card time { color: var(--ink-faint); font-size: 13px; }
 
